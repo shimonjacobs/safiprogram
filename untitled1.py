@@ -12,12 +12,12 @@ def detect_and_describe(image):
 def match_keypoints(des1, des2):
     FLANN_INDEX_KDTREE = 1
     index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
-    search_params = dict(checks=50)
+    search_params = dict(checks=50)#change
     flann = cv2.FlannBasedMatcher(index_params, search_params)
     
     # Match des1 and des2
     matches = flann.knnMatch(des1, des2, k=2)
-    good_matches = [m for m, n in matches if m.distance < 0.7 * n.distance]
+    good_matches = [m for m, n in matches if m.distance < 0.7 * n.distance]#change
     
     return good_matches
 
@@ -33,8 +33,9 @@ def estimate_homography(kp1, kp2, des1, des2):
     src_points = np.float32([kp1[m.queryIdx].pt for m in good_matches]).reshape(-1, 1, 2)
     dst_points = np.float32([kp2[m.trainIdx].pt for m in good_matches]).reshape(-1, 1, 2)
     
+    
     # Use RANSAC to find the homography matrix
-    homography, mask = cv2.findHomography(src_points, dst_points, cv2.RANSAC, 5.0)
+    homography, mask = cv2.findHomography(src_points, dst_points, cv2.RANSAC, 5.0)#change
     return homography
 
 # Image Warping and Blending
